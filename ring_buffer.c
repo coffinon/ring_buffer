@@ -5,17 +5,8 @@
 
 bool RingBuffer_Init (RingBuffer * ringBuffer, char *dataBuffer, size_t dataBufferSize)
 {
-  assert (ringBuffer);
-  assert (dataBuffer);
-  assert (dataBufferSize > 0);
-
   if ((ringBuffer) && (dataBuffer) && (dataBufferSize > 0))
     {
-      // Clear the buffer
-      for (int i = 0; i < dataBufferSize; ++i)
-	{
-	  dataBuffer[i] = 0;
-	}
       // Initialize base buffer pointer
       ringBuffer->bufBaseAddr = dataBuffer;
       // Initialize buffer head and tail values
@@ -33,15 +24,8 @@ bool RingBuffer_Init (RingBuffer * ringBuffer, char *dataBuffer, size_t dataBuff
 
 bool RingBuffer_Clear (RingBuffer * ringBuffer)
 {
-  assert (ringBuffer);
-
   if (ringBuffer)
     {
-      // Clear the buffer
-      for (int i = 0; i < ringBuffer->bufCapacity; ++i)
-	{
-	  ringBuffer->bufBaseAddr[i] = 0;
-	}
       // Clear buffer head and tail values
       ringBuffer->bufHead = 0;
       ringBuffer->bufTail = 0;
@@ -55,7 +39,6 @@ bool RingBuffer_Clear (RingBuffer * ringBuffer)
 
 bool RingBuffer_IsEmpty (const RingBuffer * ringBuffer)
 {
-  assert (ringBuffer);
   // Check if buffer is empty
   if (ringBuffer->bufCount)
     return false;
@@ -65,8 +48,6 @@ bool RingBuffer_IsEmpty (const RingBuffer * ringBuffer)
 
 size_t RingBuffer_GetLen (const RingBuffer * ringBuffer)
 {
-  assert (ringBuffer);
-
   if (ringBuffer)
     {
       // Return buffer length
@@ -78,8 +59,6 @@ size_t RingBuffer_GetLen (const RingBuffer * ringBuffer)
 
 size_t RingBuffer_GetCapacity (const RingBuffer * ringBuffer)
 {
-  assert (ringBuffer);
-
   if (ringBuffer)
     {
       // Return buffer capacity 
@@ -91,13 +70,11 @@ size_t RingBuffer_GetCapacity (const RingBuffer * ringBuffer)
 
 bool RingBuffer_PutChar (RingBuffer * ringBuffer, char c)
 {
-  assert (ringBuffer);
-
   if (ringBuffer)
   {
     // Create temporary variables storing head address and end of buffer address
-    char *ptemp1 = ringBuffer->bufBaseAddr + ringBuffer->bufHead;
-    char *ptemp2 = ringBuffer->bufBaseAddr + ringBuffer->bufCapacity;
+    char *ptemp1 = &ringBuffer->bufBaseAddr[ringBuffer->bufHead];
+    char *ptemp2 = &ringBuffer->bufBaseAddr[ringBuffer->bufCapacity];
     // Check if buffer head does not exceed end of buffer
     if (ptemp1 < ptemp2)
 	{
@@ -126,14 +103,11 @@ bool RingBuffer_PutChar (RingBuffer * ringBuffer, char c)
 
 bool RingBuffer_GetChar (RingBuffer * ringBuffer, char *c)
 {
-  assert (ringBuffer);
-  assert (c);
-
   if ((ringBuffer) && (c))
     {
       // Create temporary variables storing head address and end of buffer address
-      char *ptemp1 = ringBuffer->bufBaseAddr + ringBuffer->bufTail;
-      char *ptemp2 = ringBuffer->bufBaseAddr + ringBuffer->bufCapacity;
+      char *ptemp1 = &ringBuffer->bufBaseAddr[ringBuffer->bufTail];
+      char *ptemp2 = &ringBuffer->bufBaseAddr[ringBuffer->bufCapacity];
       // Check if buffer tail does not exceed end of buffer
       if (ptemp1 < ptemp2)
 	  {
