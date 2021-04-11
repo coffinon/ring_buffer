@@ -9,11 +9,12 @@
 typedef struct
 {
   /// Compose your structure here!
-  char *bufBaseAddr;
-  uint16_t bufHead;
-  uint16_t bufTail;
-  size_t bufCount;
-  size_t bufCapacity;
+  char *buffer;
+  size_t head;
+  size_t tail;
+  size_t capacity;
+  size_t length;
+  bool is_full;
 } RingBuffer;
 
 
